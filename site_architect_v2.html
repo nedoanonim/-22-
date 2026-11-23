@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Архітектор структури сайта · Практична робота (40 хв · 12 балів)</title>
+<style>
+:root{--bg:#f4f6fb;--cd:#fff;--tx:#1b2233;--mu:#5d6679;--ac:#3b5bdb;--a2:#e8edff;--ok:#2b8a3e;--no:#e03131;--bd:#dce1ed;--wf:#e9ecf3}
+@media(prefers-color-scheme:dark){:root{--bg:#11141e;--cd:#1a1f2e;--tx:#e8ebf5;--mu:#9aa3b8;--ac:#7c97ff;--a2:#252c47;--ok:#69db7c;--no:#ff8787;--bd:#2c3350;--wf:#262c40}}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+.w{max-width:900px;margin:0 auto;padding:12px}
+h1{font-size:1.2rem;margin:4px 0}
+h2{font-size:1.1rem;margin:0 0 4px}
+.top{position:sticky;top:0;z-index:9;background:var(--bg);padding:6px 0}
+.bar{display:flex;gap:10px;align-items:center;background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:8px 12px}
+.sc{font-size:1.4rem;font-weight:800;color:var(--ac)}
+.tm{font-variant-numeric:tabular-nums;font-weight:700}
+.g{flex:1}
+button{font:inherit;background:var(--ac);color:#fff;border:0;border-radius:9px;padding:7px 12px;cursor:pointer}
+button.s{background:var(--a2);color:var(--ac)}
+button.x{background:transparent;color:var(--no);padding:2px 6px}
+.tabs{display:flex;gap:6px;margin:8px 0;overflow-x:auto}
+.tabs button{background:var(--cd);color:var(--tx);border:1px solid var(--bd);white-space:nowrap;flex:1}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.cd{background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:10px 0}
+.goal{background:var(--a2);border-radius:9px;padding:8px 11px;margin:6px 0 10px}
+.pts{font-size:.75rem;background:var(--a2);color:var(--ac);border-radius:99px;padding:2px 9px;font-weight:700}
+label{display:block;font-weight:600;font-size:.88rem;margin:8px 0 3px}
+input,select,textarea{font:inherit;width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
+textarea{min-height:56px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.row>*{flex:1;min-width:120px}
+.row>button{flex:0 0 auto}
+.pg{border:1px solid var(--bd);border-radius:10px;padding:10px;margin:8px 0}
+.l3{margin-left:22px;border-left:3px solid var(--ac)}
+.l2{border-left:3px solid var(--ok)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.chip{background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:99px;padding:3px 10px;font-size:.82rem;cursor:pointer}
+.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.chip.dis{opacity:.35;cursor:not-allowed}
+.mu{color:var(--mu);font-size:.85rem}
+.ck{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd)}
+.ck i{font-style:normal;font-weight:800;width:20px}
+.ok i{color:var(--ok)}.no i{color:var(--no)}
+.fr{margin:8px auto;border:2px solid var(--bd);border-radius:10px;padding:8px;background:var(--cd)}
+.bl{background:var(--wf);border:1.5px dashed var(--mu);border-radius:6px;margin:5px 0;padding:6px 8px;font-size:.82rem;color:var(--mu);display:flex;justify-content:space-between;gap:6px;align-items:center}
+.bl.h2{display:flex;gap:6px}
+.sub3{display:flex;gap:6px;flex:1}.sub3 div{flex:1;border:1px solid var(--mu);border-radius:4px;height:100%;text-align:center}
+.bt{display:flex;flex-wrap:wrap;gap:6px}
+.st{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;margin:8px 0}
+.st div{background:var(--a2);border-radius:8px;padding:6px;text-align:center}.st b{display:block;font-size:1.2rem;color:var(--ac)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}td,th{border:1px solid var(--bd);padding:5px;text-align:left;vertical-align:top}
+.tr ul{margin:2px 0 2px 18px;padding:0}
+.hide{display:none}
+svg.map{width:100%;height:auto;display:block}
+.leg{display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;color:var(--mu);margin-top:6px}
+.sw{display:flex;gap:8px;margin:8px 0}.sw span{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent}.sw span.on{border-color:var(--tx)}
+.br{border:1px solid var(--bd);border-radius:10px;overflow:hidden;margin:8px auto;background:#fff;color:#1b2233}
+.bb{background:#e8eaf0;padding:6px 10px;display:flex;gap:8px;align-items:center;font-size:.75rem;color:#555}
+.dots span{display:inline-block;width:9px;height:9px;border-radius:50%;background:#b5bac8;margin-right:3px}
+.url{flex:1;background:#fff;border-radius:99px;padding:2px 10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.pvx .h{padding:10px 14px;display:flex;align-items:center;gap:8px;color:#fff;font-weight:800}
+.pvx .lg{width:26px;height:26px;border-radius:50%;background:#fff;opacity:.9}
+.pvx nav{display:flex;gap:4px;flex-wrap:wrap;padding:6px 10px;background:#f1f3f8;border-bottom:1px solid #e1e4ec}
+.pvx nav a{padding:4px 10px;border-radius:6px;cursor:pointer;font-size:.85rem;color:#333}
+.pvx nav a.on{color:#fff}
+.pvx .ban{padding:34px 18px;color:#fff;text-align:center}
+.pvx .ban h2{font-size:1.5rem;margin:0 0 6px}
+.pvx .btn{display:inline-block;color:#fff;padding:8px 16px;border-radius:8px;font-weight:700;margin-top:8px}
+.pvx .pad{padding:14px 18px}
+.pvx .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px 18px}
+.pvx .cdp{border:1px solid #e1e4ec;border-radius:10px;overflow:hidden;font-weight:700;font-size:.9rem;cursor:pointer}
+.pvx .cdp i{display:block;height:54px}.pvx .cdp span{display:block;padding:6px 8px}
+.pvx .ft{padding:14px;background:#1f2433;color:#cfd4e4;font-size:.8rem;text-align:center}
+.pvx .sd{background:#f1f3f8;margin:10px 18px;padding:10px;border-radius:8px}
+.pvx a.lk{cursor:pointer;text-decoration:underline;margin-right:10px}
+.pvx input,.pvx textarea{background:#fff;color:#1b2233;border:1px solid #cfd4e4;margin:3px 0}
+.br.mob .g3{grid-template-columns:1fr}
+.w{max-width:1000px}.bar{flex-wrap:wrap}
+.hero{background:linear-gradient(120deg,#2f4ac2,#6741d9);color:#fff;border-radius:16px;padding:16px 18px;margin:6px 0 10px}
+.hero small{font-weight:600;opacity:.85}
+.hero h1{font-size:1.5rem;margin:2px 0 12px;letter-spacing:-.01em}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.stat div{background:rgba(255,255,255,.15);border-radius:10px;padding:6px 10px;font-size:.84rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stat b{display:block;font-size:.72rem;font-weight:600;opacity:.8}
+.tabs{display:block;overflow:visible}
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tabs .pn{display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--cd);color:var(--tx);border:1px solid var(--bd);border-radius:14px;padding:12px 6px 10px;position:relative;white-space:normal;flex:none}
+.tabs .pn.on{border-color:var(--ac);box-shadow:0 0 0 3px var(--a2)}
+.pn .rg{width:54px;height:54px;border-radius:50%;display:grid;place-items:center}
+.pn .rg i{font-style:normal;width:42px;height:42px;border-radius:50%;background:var(--cd);display:grid;place-items:center;font-weight:800;color:var(--ac)}
+.pn.dn .rg i{background:var(--ok);color:#fff}
+.pn .ds{letter-spacing:1px;font-size:.68rem;color:var(--ac)}.pn.dn .ds{color:var(--ok)}
+.pn .tg{font-size:.72rem;color:var(--mu)}
+.pn:not(:last-child)::after{content:"";position:absolute;right:-11px;top:38px;width:12px;height:3px;background:var(--bd)}
+.pn.dn:not(:last-child)::after{background:var(--ok)}
+.eb{font-size:.78rem;font-weight:700;color:var(--ac);margin-bottom:2px}
+.pbar{height:8px;background:var(--wf);border-radius:9px;overflow:hidden;margin-top:4px}.pbar span{display:block;height:100%;background:var(--ac);border-radius:9px}.pbar.dn span{background:var(--ok)}
+.stg{display:grid;grid-template-columns:34px 1fr;gap:10px;margin:8px 0;align-items:center}
+.rg2{width:34px;height:34px;border-radius:50%;background:var(--a2);color:var(--ac);display:grid;place-items:center;font-weight:800}.rg2.dn{background:var(--ok);color:#fff}
+.lv{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}
+.wb{display:flex;gap:8px;align-items:center;background:var(--wf);border-radius:7px;padding:5px 9px;margin-bottom:6px;font-size:.74rem;color:var(--mu)}
+@media(max-width:560px){.pn .ds,.pn .tg{display:none}.pn .rg{width:44px;height:44px}.pn .rg i{width:34px;height:34px}.pn b{font-size:.72rem}.pipe{gap:6px}.pn:not(:last-child)::after{display:none}}
+@media print{.top,.tabs,.noprint{display:none!important}.cd{border:0}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="hero"><small>11 клас · практична робота · 40 хв</small><h1>Архітектор структури сайта</h1><div class="stat" id="stat"></div></div>
+<div class="top"><div class="bar">
+<div>Бали: <span class="sc" id="sc">0</span>/12</div><div class="g"></div>
+<div class="tm" id="tm">40:00</div><button id="go">Старт</button><button class="s" id="rs">Скинути</button><button class="s" id="ex">⬇ JSON</button><button class="s" id="im">⬆ JSON</button><input type="file" id="imf" accept=".json" class="hide">
+</div></div>
+<div class="tabs" id="tabs"></div>
+
+<!-- КРОК 1 -->
+<section id="s1">
+<div class="cd"><div class="eb">Етап 1 з 4 · Технічне завдання</div><h2>1. Проєктний бриф <span class="pts">до 3 балів</span> <span class="pts">≈ 6 хв</span></h2>
+<div class="goal"><b>Ціль:</b> визначити, для кого і навіщо ваш сайт, та описати 2 шляхи користувача.</div>
+<label>Назва сайта * · +1 бал разом з автором</label><input data-b="name" placeholder="Напр.: Кав’ярня «Зерно»">
+<label>Автор (ПІБ, клас) *</label><input data-b="author">
+<label>Головна мета сайта * · +1 бал разом з аудиторією</label><textarea data-b="goal" placeholder="Що має зробити відвідувач? Напр.: забронювати столик"></textarea>
+<label>Цільова аудиторія *</label><input data-b="aud" placeholder="Студенти 18–25 років">
+<label>Сценарій 1 (головний шлях до мети) · +1 бал разом зі сценарієм 2</label><textarea data-b="s1" placeholder="Зайшов на Головну → відкрив Меню → ..."></textarea>
+<label>Сценарій 2 (додатковий)</label><textarea data-b="s2"></textarea>
+<div class="goal" style="margin-top:12px"><b>Правила:</b> 1) цільова дія за ≤3 кліки; 2) у головному меню 3–6 вкладок; 3) жодних сторінок-тупиків.</div>
+<button data-go="2">Далі: структура та переходи →</button></div>
+</section>
+
+<!-- КРОК 2 -->
+<section id="s2" class="hide">
+<div class="cd"><div class="eb">Етап 2 з 4 · Інформаційна архітектура</div><h2>2. Структура сайта та переходи <span class="pts">до 6 балів</span> <span class="pts">≈ 16 хв</span></h2>
+<div class="goal"><b>Ціль:</b> побудувати дерево сторінок (3–6 вкладок меню, мінімум 3 підкатегорії), описати зміст, додати перехресні переходи й прокласти маршрут до мети. Схема нижче будується автоматично.</div>
+<div class="row"><div><label>Назва сторінки</label><input id="pn" placeholder="Напр.: Меню"></div>
+<div><label>Куди додати</label><select id="pp"></select></div><button id="pa">+ Додати</button></div>
+<div class="st" id="st2"></div>
+<h2>Карта сайта наживо</h2><div id="mp"></div><div class="leg"><span><i class="lv" style="background:#3b5bdb"></i>Рівень 1 · Головна</span><span><i class="lv" style="background:#2b8a3e"></i>Рівень 2 · меню</span><span><i class="lv" style="background:#3b5bdb;opacity:.5"></i>Рівень 3</span><span>━ ієрархія</span><span style="color:#f08c00">╌ перехресні переходи</span><span style="color:#2b8a3e">━ маршрут до мети</span></div>
+<div id="pl"></div></div>
+<div class="cd"><h2>Маршрут до мети (User Flow)</h2>
+<div class="mu">Клікайте по сторінках по порядку: від Головної до цільової дії. Доступні лише ті сторінки, на які реально можна перейти (меню, вкладена/батьківська сторінка, перехресний перехід).</div>
+<div id="fl"></div><button class="s" id="fr">Скинути маршрут</button></div>
+<button data-go="3">Далі: Wireframe →</button>
+</section>
+
+<!-- КРОК 3 -->
+<section id="s3" class="hide">
+<div class="cd"><div class="eb">Етап 3 з 4 · Прототип</div><h2>3. Блоковий макет (Wireframe) <span class="pts">до 3 балів</span> <span class="pts">≈ 12 хв</span></h2>
+<div class="goal"><b>Ціль:</b> розмістити блоки на Головній (шапка, меню, підвал + щонайменше 5 блоків), ще на одній сторінці (≥4 блоки з шапкою й підвалом) і перевірити вигляд на смартфоні.</div>
+<div class="row"><div><label>Сторінка для макетування</label><select id="wp"></select></div>
+<button class="s" id="wm">Смартфон / Десктоп</button></div>
+<label>Бібліотека блоків (натисніть, щоб додати)</label><div class="bt" id="lib"></div>
+<div class="fr" id="fm"></div></div>
+<button data-go="4">Далі: результат і паспорт →</button>
+</section>
+
+<!-- КРОК 4 -->
+<section id="s4" class="hide">
+<div class="cd noprint"><div class="eb">Етап 4 з 4 · Результат і паспорт</div><h2>4. Кінцева візуалізація вашого сайта <span class="pts">≈ 6 хв</span></h2>
+<div class="goal"><b>Ціль:</b> побачити свій сайт «як справжній»: клікайте по меню, картках і посиланнях та перевірте, чи зручно переходити. Оберіть колір і перевірте смартфон.</div>
+<div class="sw" id="sw"></div><button class="s" id="pm">Смартфон / Десктоп</button><div id="pv"></div></div>
+<div class="cd noprint"><h2>Перевірка та оцінка <span class="pts">12 критеріїв</span></h2>
+<div class="goal"><b>Ціль:</b> усунути підказки з червоним ✗ й отримати максимум балів. Далі збережіть паспорт у PDF.</div>
+<div id="au"></div>
+<p><button id="pr">Зберегти паспорт у PDF / друк</button></p></div>
+<div class="cd" id="pass"></div>
+</section>
+</div>
+
+<script>
+var $=function(s){return document.querySelector(s)};
+var E=function(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})};
+var BL=[["hdr","Шапка (логотип)",34],["menu","Головне меню",28],["ban","Банер / головний екран",90],["txt","Заголовок і текст",60],["cards","Картки (3 колонки)",70],["gal","Галерея",70],["form","Форма",80],["cta","Кнопка дії",30],["side","Бічна панель",70],["foot","Підвал (контакти)",34]];
+var KEY="site_architect_v1";
+var S={b:{name:"",author:"",goal:"",aud:"",s1:"",s2:""},pages:[],flow:[],wf:{home:[]},cur:"home",mob:false,seen:false,step:1,left:2400,n:0,ac:"#3b5bdb",pv:"home",pm:false};
+try{var sv=localStorage.getItem(KEY);if(sv)S=JSON.parse(sv)}catch(e){}
+S.ac=S.ac||"#3b5bdb";S.pv=S.pv||"home";
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function all(){S.home=S.home||{id:"home",name:"Головна",parent:null,desc:"Вхід на сайт",links:[]};return[S.home].concat(S.pages)}
+function pg(id){return all().filter(function(p){return p.id===id})[0]}
+function lvl(p){return p.id==="home"?1:p.parent==="home"?2:3}
+function nm(id){var p=pg(id);return p?p.name:"?"}
+
+/* ---------- оцінювання ---------- */
+function checks(){
+ var b=S.b,P=S.pages,L2=P.filter(function(p){return lvl(p)===2}),L3=P.filter(function(p){return lvl(p)===3});
+ var cross=0;all().forEach(function(p){cross+=p.links.length});
+ var w=S.wf,hm=w.home||[],has=function(a,k){return a.indexOf(k)>-1};
+ var other=Object.keys(w).filter(function(k){return k!=="home"&&w[k].length>=4&&has(w[k],"hdr")&&has(w[k],"foot")}).length>0;
+ var clicks=S.flow.length>1?S.flow.length-1:0;
+ return[
+ [b.name.trim()&&b.author.trim(),"Вказано назву сайта та автора","Заповніть бриф (крок 1)"],
+ [b.goal.trim()&&b.aud.trim(),"Визначено мету та цільову аудиторію","Заповніть мету й аудиторію"],
+ [b.s1.trim()&&b.s2.trim(),"Описано 2 сценарії користувача","Потрібні обидва сценарії"],
+ [L2.length>=3&&L2.length<=6,"У меню 3–6 вкладок (зараз "+L2.length+")","Додайте/приберіть вкладки (Рівень 2)"],
+ [L3.length>=3,"Є щонайменше 3 підкатегорії (зараз "+L3.length+")","Додайте підкатегорії всередині вкладок"],
+ [P.length>0&&P.every(function(p){return(p.desc||"").trim().length>5}),"Кожна сторінка має опис змісту","Опишіть, що розміщено на кожній сторінці"],
+ [cross>=3,"Щонайменше 3 перехресні переходи (зараз "+cross+")","Додайте посилання між сторінками"],
+ [L3.length>0&&L3.every(function(p){return p.links.length>0}),"Немає тупиків: кожна підкатегорія має перехід","Додайте перехід у кожну підкатегорію"],
+ [clicks>=1&&clicks<=3,"Маршрут до мети ≤3 кліки (зараз "+clicks+")","Прокладіть маршрут на 1–3 кліки"],
+ [has(hm,"hdr")&&has(hm,"menu")&&has(hm,"foot")&&hm.length>=5,"Wireframe Головної: шапка, меню, підвал, ≥5 блоків","Доповніть макет Головної"],
+ [other,"Wireframe ще однієї сторінки (≥4 блоки, шапка й підвал)","Зробіть макет другої сторінки"],
+ [S.seen,"Перевірено вигляд на смартфоні","Перемкніть макет на «Смартфон»"]];
+}
+function score(){var n=checks().filter(function(c){return c[0]}).length;$("#sc").textContent=n;pipe();var b=S.b;
+ $("#stat").innerHTML=[["Проєкт",b.name],["Призначення",b.goal],["Аудиторія",b.aud],["Автор",b.author]].map(function(x){return"<div><b>"+x[0]+"</b>"+E(x[1]||"Не вказано")+"</div>"}).join("")+"<div><b>Автозбереження</b>● "+new Date().toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})+"</div>";return n}
+function stg(){var c=checks().map(function(x){return!!x[0]}),g=[[0,3,"Бриф","6 хв"],[3,9,"Структура","16 хв"],[9,12,"Wireframe","12 хв"]];
+ var r=g.map(function(x){var a=c.slice(x[0],x[1]);return{t:x[2],m:x[3],a:a,d:a.filter(Boolean).length,n:a.length}});
+ r.push({t:"Результат",m:"6 хв",a:c,d:c.filter(Boolean).length,n:12});return r}
+function pipe(){$("#tabs").innerHTML='<div class="pipe">'+stg().map(function(x,i){var dn=x.d===x.n;
+ return'<button class="pn'+(S.step===i+1?" on":"")+(dn?" dn":"")+'" data-t="'+(i+1)+'"><span class="rg" style="background:conic-gradient('+(dn?"var(--ok)":"var(--ac)")+" "+Math.round(x.d/x.n*360)+'deg,var(--wf) 0)"><i>'+(dn?"✓":i+1)+"</i></span><b>"+x.t+'</b><span class="ds">'+x.a.map(function(v){return v?"●":"○"}).join("")+'</span><span class="tg">'+x.d+"/"+x.n+" · "+x.m+"</span></button>"}).join("")+"</div>"}
+function road(){return stg().map(function(x,i){var dn=x.d===x.n;return'<div class="stg"><div class="rg2'+(dn?" dn":"")+'">'+(dn?"✓":i+1)+'</div><div><b>'+x.t+'</b> <span class="mu">'+x.m+" · "+x.d+"/"+x.n+'</span><div class="pbar'+(dn?" dn":"")+'"><span style="width:'+Math.round(x.d/x.n*100)+'%"></span></div></div></div>'}).join("")}
+
+/* ---------- навігація ---------- */
+var T=["1. Бриф","2. Структура","3. Wireframe","4. Результат"];
+function tabs(){pipe();for(var i=1;i<=4;i++)$("#s"+i).classList.toggle("hide",S.step!==i)}
+function goto(n){S.step=n;tabs();draw();save();window.scrollTo(0,0)}
+
+/* ---------- візуалізація ---------- */
+function mapSVG(sf){
+ var L2=S.pages.filter(function(p){return lvl(p)===2}),n=Math.max(L2.length,1),cw=Math.max(130,Math.floor(760/n)),W=Math.max(560,cw*n),nw=Math.min(cw-14,124),nh=32,pos={},mk=0;
+ pos.home={x:W/2,y:10};
+ L2.forEach(function(p,i){var cx=cw*i+cw/2;pos[p.id]={x:cx,y:92};var k=S.pages.filter(function(q){return q.parent===p.id});mk=Math.max(mk,k.length);k.forEach(function(q,j){pos[q.id]={x:cx,y:158+j*58}})});
+ var H=mk?158+mk*58:150,o="",ed="",nd="",ov="";
+ o='<svg class="map" viewBox="0 0 '+W+" "+H+'" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ao'+sf+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f08c00"/></marker><marker id="ag'+sf+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2b8a3e"/></marker></defs>';
+ function ln(a,b){ed+='<path d="M'+a.x+" "+(a.y+nh)+"L"+b.x+" "+b.y+'" stroke="#8a93a8" stroke-width="2" fill="none"/>'}
+ L2.forEach(function(p){ln(pos.home,pos[p.id]);var prev=pos[p.id];S.pages.filter(function(q){return q.parent===p.id}).forEach(function(q){ln(prev,pos[q.id]);prev=pos[q.id]})});
+ var bd={};S.flow.forEach(function(id,i){(bd[id]=bd[id]||[]).push(i+1)});
+ all().forEach(function(p){var c=pos[p.id];if(!c)return;var l=lvl(p),t=p.name.length>15?p.name.slice(0,14)+"…":p.name;
+  nd+='<rect x="'+(c.x-nw/2)+'" y="'+c.y+'" width="'+nw+'" height="'+nh+'" rx="8" style="fill:'+(l===1?S.ac:"var(--cd)")+'" stroke="'+(l===1?S.ac:l===2?"#2b8a3e":"#3b5bdb")+'" stroke-width="2"/><text x="'+c.x+'" y="'+(c.y+nh/2+4)+'" text-anchor="middle" font-size="12" font-weight="600" style="fill:'+(l===1?"#fff":"var(--tx)")+'">'+E(t)+"</text>";
+  if(bd[p.id])ov+='<circle cx="'+(c.x+nw/2)+'" cy="'+c.y+'" r="10" fill="#2b8a3e"/><text x="'+(c.x+nw/2)+'" y="'+(c.y+4)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">'+bd[p.id].join(",")+"</text>"});
+ function cv(a,b,off,col,w,dash,mk2){
+  var ax=a.x,ay=a.y+nh/2,bx=b.x,by=b.y+nh/2,mx=(ax+bx)/2,my=(ay+by)/2,nx=-(by-ay),ny=bx-ax,ln2=Math.sqrt(nx*nx+ny*ny)||1,cx=mx+nx/ln2*off,cy=my+ny/ln2*off,ux=bx-cx,uy=by-cy,ul=Math.sqrt(ux*ux+uy*uy)||1;ux/=ul;uy/=ul;
+  var t=Math.min(ux?(nw/2)/Math.abs(ux):1e9,uy?(nh/2)/Math.abs(uy):1e9)+4;
+  return'<path d="M'+ax+" "+ay+"Q"+cx+" "+cy+" "+(bx-ux*t)+" "+(by-uy*t)+'" stroke="'+col+'" stroke-width="'+w+'" fill="none" '+(dash?'stroke-dasharray="5 4" ':"")+'marker-end="url(#'+mk2+sf+')"/>'}
+ all().forEach(function(p){p.links.forEach(function(l){if(pos[p.id]&&pos[l])ov+=cv(pos[p.id],pos[l],p.id<l?34:-34,"#f08c00",2,1,"ao")})});
+ for(var i=1;i<S.flow.length;i++)if(pos[S.flow[i-1]]&&pos[S.flow[i]])ov+=cv(pos[S.flow[i-1]],pos[S.flow[i]],-22,"#2b8a3e",3.5,0,"ag");
+ if(!S.pages.length)nd+='<text x="'+W/2+'" y="90" text-anchor="middle" font-size="13" style="fill:var(--mu)">Додайте вкладки меню — схема з’явиться тут</text>';
+ var bn='<rect x="0" y="4" width="'+W+'" height="44" rx="8" fill="var(--wf)" opacity=".5"/><rect x="0" y="86" width="'+W+'" height="44" rx="8" fill="var(--wf)" opacity=".5"/>'+(mk?'<rect x="0" y="152" width="'+W+'" height="'+(H-152)+'" rx="8" fill="var(--wf)" opacity=".5"/>':"");return o+bn+ed+nd+ov+"</svg>";
+}
+function proto(id,ro){
+ var a=S.ac,p=pg(id),b=S.b,sn=b.name||"Назва сайта",L2=S.pages.filter(function(q){return lvl(q)===2}),
+ X=function(i){return ro?"":' data-px="'+i+'"'},
+ kids=id==="home"?L2:S.pages.filter(function(q){return q.parent===id});
+ if(!kids.length)kids=p.links.map(pg).filter(Boolean);
+ var wf=S.wf[id]&&S.wf[id].length,bl=wf?S.wf[id]:(id==="home"?["hdr","menu","ban","cards","foot"]:["hdr","menu","txt","cards","foot"]);
+ var lk=function(q){return'<a class="lk"'+X(q.id)+' style="color:'+a+'">'+E(q.name)+"</a>"},
+ goal=(b.goal||"Дізнатися більше"),gs=goal.length>28?goal.slice(0,27)+"…":goal;
+ var h=bl.map(function(k){switch(k){
+ case"hdr":return'<div class="h" style="background:'+a+'"><span class="lg"></span>'+E(sn)+"</div>";
+ case"menu":var na=function(q,act){return"<a"+X(q.id)+' class="'+(act?"on":"")+'" style="'+(act?"background:"+a:"")+'">'+E(q.name)+"</a>"};
+  return"<nav>"+na(all()[0],id==="home")+L2.map(function(q){return na(q,id===q.id||p.parent===q.id)}).join("")+"</nav>";
+ case"ban":return'<div class="ban" style="background:linear-gradient(135deg,'+a+","+a+'aa)"><h2>'+E(id==="home"?sn:p.name)+"</h2><div>"+E(id==="home"?(b.goal||"Ласкаво просимо!"):(p.desc||""))+"</div>"+'<span class="btn" style="background:#fff;color:'+a+'">'+E(kids[0]?kids[0].name:"Детальніше")+"</span></div>";
+ case"txt":return'<div class="pad"><h3 style="margin:0 0 6px;color:'+a+'">'+E(p.name)+"</h3><div>"+E(p.desc||"Опис сторінки…")+"</div>"+(p.links.length?'<div style="margin-top:8px">Дивіться також: '+p.links.map(pg).filter(Boolean).map(lk).join("")+"</div>":"")+"</div>";
+ case"cards":var it=kids.slice(0,3);return'<div class="g3">'+(it.length?it:[{name:"Розділ 1"},{name:"Розділ 2"},{name:"Розділ 3"}]).map(function(q,i){return'<div class="cdp"'+(q.id?X(q.id):"")+'><i style="background:'+a+";opacity:"+(.35+.2*i)+'"></i><span>'+E(q.name)+"</span></div>"}).join("")+"</div>";
+ case"gal":return'<div class="g3">'+[0,1,2,3,4,5].map(function(i){return'<div style="height:60px;border-radius:8px;background:'+a+";opacity:"+(.25+.12*i)+'"></div>'}).join("")+"</div>";
+ case"form":return'<div class="pad"><b>Зв’язок / замовлення</b><input placeholder="Ім’я"><input placeholder="Email"><textarea placeholder="Повідомлення"></textarea><span class="btn" style="background:'+a+'">Надіслати</span></div>';
+ case"cta":return'<div class="pad" style="text-align:center"><span class="btn" style="background:'+a+'">'+E(gs)+"</span></div>";
+ case"side":var rl=kids.concat(p.links.map(pg).filter(Boolean));if(p.parent&&p.parent!=="home")rl.push(pg(p.parent));if(!rl.length)rl=L2;return'<div class="sd"><b>Також на сайті</b><br>'+rl.map(lk).join("<br>")+"</div>";
+ case"foot":return'<div class="ft">© '+new Date().getFullYear()+" "+E(sn)+" · "+E(b.author||"автор")+"</div>"}return""}).join("");
+ var slug=id==="home"?"":"/"+p.name.toLowerCase().replace(/\s+/g,"-");
+ return'<div class="bb"><span class="dots"><span></span><span></span><span></span></span><div class="url">https://'+E((sn.toLowerCase().replace(/\s+/g,"-"))+".ua"+slug)+'</div></div><div class="pvx">'+h+"</div>"+(wf||ro?"":'<div class="mu" style="padding:6px 10px">Макет цієї сторінки ще не створено — показано автоматичний варіант.</div>');
+}
+function dp(){
+ if(!pg(S.pv))S.pv="home";
+ $("#sw").innerHTML=["#3b5bdb","#2b8a3e","#e8590c","#c2255c","#0c8599","#6741d9"].map(function(c){return'<span data-ac="'+c+'" class="'+(S.ac===c?"on":"")+'" style="background:'+c+'"></span>'}).join("");
+ $("#pv").innerHTML='<div class="br'+(S.pm?" mob":"")+'" style="max-width:'+(S.pm?"340px":"100%")+'">'+proto(S.pv)+"</div>";
+}
+/* ---------- крок 2 ---------- */
+function parents(){return[["home","Головна → нова вкладка меню"]].concat(S.pages.filter(function(p){return lvl(p)===2}).map(function(p){return[p.id,"У вкладку «"+p.name+"» → підкатегорія"]}))}
+function d2(){
+ $("#pp").innerHTML=parents().map(function(x){return'<option value="'+x[0]+'">'+E(x[1])+"</option>"}).join("");
+ var P=S.pages,l2=P.filter(function(p){return lvl(p)===2}).length,l3=P.length-l2,cr=0;all().forEach(function(p){cr+=p.links.length});
+ $("#st2").innerHTML=[[l2,"Вкладок"],[l3,"Підкатегорій"],[P.length+1,"Сторінок"],[cr,"Переходів"],[S.flow.length>1?S.flow.length-1:0,"Кліків до мети"]].map(function(x){return"<div><b>"+x[0]+"</b>"+x[1]+"</div>"}).join("");
+ var h="";
+ function card(p,c){
+  h+='<div class="pg '+c+'"><b>'+E(p.name)+'</b> <span class="mu">'+(c==="l3"?"Рівень 3":c==="l2"?"Рівень 2 (меню)":"Рівень 1")+"</span>"+(p.id!=="home"?' <button class="x" data-del="'+p.id+'">✕</button>':"")+
+  '<textarea data-d="'+p.id+'" placeholder="Що буде на цій сторінці?">'+E(p.desc||"")+"</textarea>"+
+  '<div class="mu">Перехресні переходи на:</div><div class="chips">'+all().filter(function(q){return q.id!==p.id}).map(function(q){return'<span class="chip '+(p.links.indexOf(q.id)>-1?"on":"")+'" data-lk="'+p.id+"|"+q.id+'">'+E(q.name)+"</span>"}).join("")+"</div></div>";}
+ card(all()[0],"");
+ S.pages.filter(function(p){return lvl(p)===2}).forEach(function(p){card(p,"l2");S.pages.filter(function(q){return q.parent===p.id}).forEach(function(q){card(q,"l3")})});
+ $("#pl").innerHTML=h;$("#mp").innerHTML=mapSVG("a");
+ var f=S.flow,last=f.length?f[f.length-1]:null;
+ function reach(id){if(!last)return id==="home";var c=pg(last),t=pg(id);return id==="home"||lvl(t)===2||t.parent===last||c.parent===id||c.links.indexOf(id)>-1}
+ $("#fl").innerHTML='<p><b>'+(f.length?f.map(nm).map(E).join(" → "):"Оберіть першу сторінку (Головна)")+'</b></p><div class="chips">'+all().map(function(p){var ok=reach(p.id);return'<span class="chip '+(ok?"":"dis")+'" data-fl="'+p.id+'">'+E(p.name)+"</span>"}).join("")+"</div>";
+}
+
+/* ---------- крок 3 ---------- */
+function wfh(id,mob,ro){
+ var a=S.wf[id]||[];
+ if(!a.length)return'<div class="mu" style="text-align:center;padding:20px">Порожньо. Додайте блоки з бібліотеки.</div>';
+ return a.map(function(k,i){var d=BL.filter(function(x){return x[0]===k})[0],m=(k==="cards"||k==="gal")?'<div class="sub3"><div></div><div></div><div></div></div>':"";
+  return'<div class="bl" style="min-height:'+d[2]+'px"><span>'+d[1]+"</span>"+m+(id===S.cur&&!ro?'<span class="noprint"><button class="x" data-mv="'+i+'|-1">↑</button><button class="x" data-mv="'+i+'|1">↓</button><button class="x" data-rm="'+i+'">✕</button></span>':"")+"</div>"}).join("");
+}
+function d3(){
+ $("#wp").innerHTML=all().map(function(p){return'<option value="'+p.id+'"'+(p.id===S.cur?" selected":"")+">"+E(p.name)+" ("+((S.wf[p.id]||[]).length)+" бл.)</option>"}).join("");
+ $("#lib").innerHTML=BL.map(function(b){return'<button class="s" data-ad="'+b[0]+'">+ '+b[1]+"</button>"}).join("");
+ var f=$("#fm");f.style.maxWidth=S.mob?"300px":"100%";
+ f.innerHTML='<div class="wb"><span class="dots"><span></span><span></span><span></span></span><b>'+E(nm(S.cur))+'</b><span style="margin-left:auto">'+(S.mob?"Смартфон 375px":"Десктоп 1200px")+"</span></div>"+wfh(S.cur);
+}
+
+/* ---------- крок 4 ---------- */
+function tree(id){var c=S.pages.filter(function(p){return p.parent===id});return c.length?"<ul>"+c.map(function(p){return"<li>"+E(p.name)+(p.links.length?' <span class="mu">→ '+p.links.map(nm).map(E).join(", ")+"</span>":"")+tree(p.id)+"</li>"}).join("")+"</ul>":""}
+function d4(){
+ var c=checks(),n=c.filter(function(x){return x[0]}).length;
+ $("#au").innerHTML='<h3 style="margin:4px 0">Дорожня карта етапів</h3>'+road()+c.map(function(x,i){return'<div class="ck '+(x[0]?"ok":"no")+'"><i>'+(x[0]?"✓":"✗")+"</i><div>"+(i+1)+". "+x[1]+(x[0]?"":'<div class="mu">Підказка: '+x[2]+"</div>")+"</div></div>"}).join("")+'<p><b>Підсумок: '+n+" / 12 балів</b></p>";
+ var b=S.b,P=all();
+ $("#pass").innerHTML='<h2>ПАСПОРТ ІНФОРМАЦІЙНОЇ СТРУКТУРИ ВЕБСАЙТА</h2><h3>'+E(b.name||"Без назви")+'</h3><p class="mu">Автор: '+E(b.author||"—")+" · "+new Date().toLocaleDateString("uk-UA")+" · Оцінка: "+n+"/12</p>"+
+ "<p><b>Мета:</b> "+E(b.goal||"—")+"<br><b>Аудиторія:</b> "+E(b.aud||"—")+"<br><b>Сценарій 1:</b> "+E(b.s1||"—")+"<br><b>Сценарій 2:</b> "+E(b.s2||"—")+"</p>"+
+ '<h3>Етапи розробки</h3>'+road()+'<h3>Схема структури та переходів</h3>'+mapSVG("p")+'<h3>Кінцева візуалізація (Головна)</h3><div class="br" style="max-width:640px">'+proto("home",1)+"</div>"+
+ "<p><b>Маршрут до мети:</b> "+(S.flow.length?S.flow.map(nm).map(E).join(" → ")+" ("+(S.flow.length-1)+" кл.)":"—")+"</p>"+
+ "<h3>Реєстр сторінок</h3><table><tr><th>Рів.</th><th>Сторінка</th><th>Опис</th><th>Переходи</th></tr>"+P.map(function(p){return"<tr><td>"+lvl(p)+"</td><td>"+E(p.name)+"</td><td>"+E(p.desc)+"</td><td>"+E(p.links.map(nm).join(", "))+"</td></tr>"}).join("")+"</table>"+
+ "<h3>Wireframes</h3>"+P.filter(function(p){return(S.wf[p.id]||[]).length}).map(function(p){return"<b>"+E(p.name)+'</b><div class="fr" style="max-width:420px">'+wfh(p.id,0,1)+"</div>"}).join("");
+}
+function draw(){d2();d3();d4();dp();score()}
+
+/* ---------- події ---------- */
+document.addEventListener("click",function(e){
+ var t=e.target,v,px=t.closest&&t.closest("[data-px]");
+ if(px){S.pv=px.getAttribute("data-px");save();dp();return}
+ var pn=t.closest&&t.closest("[data-t]");if(pn)return goto(+pn.getAttribute("data-t"));
+ if(v=t.getAttribute("data-go"))return goto(+v);
+ if(t.id==="pa"){var nmv=$("#pn").value.trim();if(!nmv)return;var par=$("#pp").value;
+  if(par!=="home"&&pg(par).parent!=="home")return;
+  S.pages.push({id:"p"+(++S.n),name:nmv,parent:par,desc:"",links:[]});$("#pn").value="";S.wf["p"+S.n]=[]}
+ else if(v=t.getAttribute("data-del")){var rm=[v].concat(S.pages.filter(function(p){return p.parent===v}).map(function(p){return p.id}));
+  S.pages=S.pages.filter(function(p){return rm.indexOf(p.id)<0});all().forEach(function(p){p.links=p.links.filter(function(l){return rm.indexOf(l)<0})});
+  S.flow=[];rm.forEach(function(r){delete S.wf[r]});if(rm.indexOf(S.cur)>-1)S.cur="home"}
+ else if(v=t.getAttribute("data-lk")){var x=v.split("|"),p=pg(x[0]),i=p.links.indexOf(x[1]);i>-1?p.links.splice(i,1):p.links.push(x[1]);S.flow=[]}
+ else if(v=t.getAttribute("data-fl")){if(t.classList.contains("dis"))return;S.flow.push(v)}
+ else if(t.id==="fr"){S.flow=[]}
+ else if(v=t.getAttribute("data-ad")){(S.wf[S.cur]=S.wf[S.cur]||[]).push(v)}
+ else if(v=t.getAttribute("data-rm")){S.wf[S.cur].splice(+v,1)}
+ else if(v=t.getAttribute("data-mv")){var y=v.split("|"),a=S.wf[S.cur],i2=+y[0],j=i2+ +y[1];if(j>=0&&j<a.length){var tmp=a[i2];a[i2]=a[j];a[j]=tmp}}
+ else if(v=t.getAttribute("data-ac")){S.ac=v}
+ else if(t.id==="pm"){S.pm=!S.pm}
+ else if(t.id==="wm"){S.mob=!S.mob;if(S.mob)S.seen=true}
+ else if(t.id==="pr"){return window.print()}
+ else return;
+ save();draw();
+});
+document.addEventListener("input",function(e){
+ var t=e.target,v;
+ if(v=t.getAttribute("data-b")){S.b[v]=t.value}
+ else if(v=t.getAttribute("data-d")){pg(v).desc=t.value}
+ else return;
+ save();score();
+});
+$("#wp").addEventListener("change",function(){S.cur=this.value;save();d3()});
+
+/* ---------- таймер ---------- */
+var iv=null;
+function tshow(){var m=Math.floor(S.left/60),s=S.left%60;$("#tm").textContent=(m<10?"0":"")+m+":"+(s<10?"0":"")+s}
+$("#go").onclick=function(){
+ if(iv){clearInterval(iv);iv=null;this.textContent="Старт";return}
+ this.textContent="Пауза";var b=this;
+ iv=setInterval(function(){if(S.left>0){S.left--;tshow()}else{clearInterval(iv);iv=null;b.textContent="Старт"}},1000)};
+$("#rs").onclick=function(){
+ if(!confirm("Очистити весь проєкт і таймер?"))return;
+ if(iv){clearInterval(iv);iv=null}$("#go").textContent="Старт";
+ S={b:{name:"",author:"",goal:"",aud:"",s1:"",s2:""},pages:[],flow:[],wf:{home:[]},cur:"home",mob:false,seen:false,step:1,left:2400,n:0,ac:"#3b5bdb",pv:"home",pm:false};
+ document.querySelectorAll("[data-b]").forEach(function(i){i.value=""});save();tshow();goto(1)};
+
+document.querySelectorAll("[data-b]").forEach(function(i){i.value=S.b[i.getAttribute("data-b")]||""});
+$("#ex").onclick=function(){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,1)],{type:"application/json"}));a.download="site-architect.json";a.click()};
+$("#im").onclick=function(){$("#imf").click()};
+$("#imf").onchange=function(){var f=this.files[0],i=this;if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(!o.b||!o.wf)throw 0;S=o;S.ac=S.ac||"#3b5bdb";S.pv=S.pv||"home";S.left=S.left||2400;document.querySelectorAll("[data-b]").forEach(function(x){x.value=S.b[x.getAttribute("data-b")]||""});save();tshow();goto(S.step||1)}catch(e){alert("Не вдалося прочитати JSON-файл")}i.value=""};r.readAsText(f)};
+tshow();tabs();draw();
+</script>
+</body>
+</html>
